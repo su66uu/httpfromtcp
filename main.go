@@ -1,10 +1,18 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
 )
+
+func fClose(f *os.File) {
+	err := f.Close()
+	if err != nil {
+		log.Fatal("Error closing the file", "error", err)
+	}
+}
 
 func main() {
 	f, err := os.Open("messages.txt")
@@ -12,13 +20,15 @@ func main() {
 		log.Fatal("Error", "error", err)
 	}
 
-	for {
-		data := make([]byte, 8)
-		n, err := f.Read(data)
-		if err != nil {
-			break
-		}
+	defer fClose(f)
 
-		fmt.Printf("read: %s\n", string(data[:n]))
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := scanner.Text()
+		fmt.Printf("read: %s\n", line)
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal("Error reading the file", err)
 	}
 }

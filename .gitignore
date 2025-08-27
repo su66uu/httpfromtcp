@@ -1,0 +1,18 @@
+# add ingore files for go project
+bin/
+obj//
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+# Ignore IDE/editor config files
+*.swp
+# Ignore dependency directories
+vendor/
+# Ignore build directories
+# Ignore OS generated files
+.DS_Store
+
+
